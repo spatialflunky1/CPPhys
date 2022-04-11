@@ -1,2 +1,2 @@
 all:
-	g++ main.cpp -o phys
+	g++ main.cpp -lncurses -ltinfo -o phys
