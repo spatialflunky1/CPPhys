@@ -1,8 +1,9 @@
 #include <iostream> // for non curses text output
 #include <ncurses.h> // custom char location
 #include <cstdlib> // random
-#include <chrono> // chrono and thread for waiting in milliseconds
 #include <thread> // key input for quitting
+#include <string>
+// Variables used in other threads
 int key = 0;
 bool running = true;
 
@@ -11,7 +12,7 @@ class Object {
         int weight;
         int bounciness;
         char character;
-        int location[4];
+        float location[4];
         void printInfo() {
             std::cout << "Object info:\n----------------\n";
             std::cout << "Weight: " << weight << "\n";
@@ -35,13 +36,14 @@ Object createBall(int weight,char character,int bounciness) {
     return ball;
 }
 
-Object moveObject(Object object,int amountX,int amountY) {
+Object moveObject(Object object,float amountX,float amountY) {
     object.location[2] = object.location[0];
     object.location[3] = object.location[1];
     object.location[0] += amountX;
     object.location[1] += amountY;
-    mvaddch(object.location[2],object.location[3],' ');
-    mvaddch(object.location[0],object.location[1],object.character);
+    //mvaddch(object.location[2],object.location[3],' ');
+    //mvaddch(object.location[0],object.location[1],object.character);
+    mvprintw(object.location[0], object.location[1],std::to_string(object.location[0]).c_str());
     return object;
 }
 
@@ -55,8 +57,7 @@ void update_key() {
 
 int main() {
     Object ball = createBall(10,'o',10); 
-    // Start curses mode
-    initscr();
+    initscr(); // Start curses mode
     noecho();
     curs_set(0);
     int rows,cols;
@@ -65,13 +66,11 @@ int main() {
     cols--;
     std::thread key_thread(update_key);
     while (running) {
-        ball = moveObject(ball,1,1);
+        ball = moveObject(ball,0.0005,0.0005);
         refresh();
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     key_thread.join();
-    endwin(); 
-    // Exit curses mode
+    endwin(); // Exit curses mode
     printf("\x1b[2J"); // clear screen
     printf("\x1b[d"); // return to home position
     return 0;
