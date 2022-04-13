@@ -2,8 +2,7 @@ INSTALL = install
 DESTDIR ?= /
 PREFIX = ?= $(DESTDIR)/usr
 MAKE = make
-
-PATH_BATTMAN = $(PREFIX)/bin
+PATH_INST = $(PREFIX)/bin
 
 all:
 	$(MAKE) -C src all
