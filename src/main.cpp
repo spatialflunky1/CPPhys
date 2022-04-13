@@ -70,7 +70,7 @@ int main() {
     cols--;
     std::thread key_thread(update_key);
     while (running) {
-        ball = moveObject(ball,0.0004,0.0004,rows,cols);
+        ball = moveObject(ball,0.0004,0.0004,rows,cols); // goes fast at the end for some dumb reason
         refresh();
     }
     key_thread.join();
