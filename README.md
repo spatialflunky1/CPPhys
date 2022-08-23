@@ -2,4 +2,4 @@
 Terminal physics engine written in C++
 
 # Note
-Project on hold as I have no experience in physics or gravity
+Project on hold for 1-2 years as I start taking physics classes this year
